@@ -205,15 +205,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [shadcn/ui](https://ui.shadcn.com) for beautiful UI components
 - [Lucide](https://lucide.dev) for icons
 
----
 
-## 📞 Support
-
-Have questions or need help?
-
-- 📧 Email: your.email@example.com
-- 🐛 Issues: [GitHub Issues](../../issues)
-- 💬 Discussions: [GitHub Discussions](../../discussions)
 
 ---
 
