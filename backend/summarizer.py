@@ -1,5 +1,5 @@
 import os
-from openai import OpenAI
+import requests
 
 class WebsiteSummarizer:
     """
@@ -11,23 +11,13 @@ class WebsiteSummarizer:
         Initialize the Groq client
         """
         # Get Groq API key from environment
-        api_key = os.getenv('GROQ_API_KEY')
+        self.api_key = os.getenv('GROQ_API_KEY')
         
-        if not api_key:
+        if not self.api_key:
             raise ValueError("GROQ_API_KEY not found in environment variables")
         
-        # Initialize OpenAI client with Groq's endpoint
-        import httpx
-        
-        http_client = httpx.Client(
-            base_url="https://api.groq.com/openai/v1",
-            timeout=60.0
-        )
-        
-        self.client = OpenAI(
-            api_key=api_key,
-            http_client=http_client
-        )
+        # Groq API endpoint
+        self.api_url = "https://api.groq.com/openai/v1/chat/completions"
         
         # Use Groq's fastest model
         self.model = "llama-3.3-70b-versatile"
@@ -61,17 +51,39 @@ If it includes news or announcements, then summarize these too.
             {"role": "user", "content": user_prompt}
         ]
         
+        # Create request payload
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": 0.7,
+            "max_tokens": 1000
+        }
+        
+        # Set headers
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+        
         try:
-            # Call Groq API
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                temperature=0.7,
-                max_tokens=1000
+            # Call Groq API directly with requests
+            response = requests.post(
+                self.api_url,
+                json=payload,
+                headers=headers,
+                timeout=60
             )
             
-            # Extract and return the summary
-            return response.choices[0].message.content
+            # Check for errors
+            if response.status_code != 200:
+                error_detail = response.json() if response.text else {"error": "Unknown error"}
+                raise Exception(f"Groq API error {response.status_code}: {error_detail}")
             
+            # Extract and return the summary
+            result = response.json()
+            return result['choices'][0]['message']['content']
+            
+        except requests.exceptions.RequestException as e:
+            raise Exception(f"Failed to connect to Groq API: {str(e)}")
         except Exception as e:
             raise Exception(f"Failed to generate summary with Groq: {str(e)}")
