@@ -17,9 +17,16 @@ class WebsiteSummarizer:
             raise ValueError("GROQ_API_KEY not found in environment variables")
         
         # Initialize OpenAI client with Groq's endpoint
+        import httpx
+        
+        http_client = httpx.Client(
+            base_url="https://api.groq.com/openai/v1",
+            timeout=60.0
+        )
+        
         self.client = OpenAI(
             api_key=api_key,
-            base_url="https://api.groq.com/openai/v1"
+            http_client=http_client
         )
         
         # Use Groq's fastest model

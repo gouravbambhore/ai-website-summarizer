@@ -87,9 +87,11 @@ if __name__ == '__main__':
         print("Please create a .env file with your Groq API key")
     
     print("🚀 Starting Website Summarizer Backend...")
-    print("📡 API available at http://localhost:8000")
+    port = int(os.getenv('PORT', 8000))
+    print(f"📡 API available at http://localhost:{port}")
     print("📖 Endpoints:")
     print("   - GET  /health - Health check")
     print("   - POST /summarize - Summarize a website")
     
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    app.run(debug=False, host='0.0.0.0', port=port)
+
