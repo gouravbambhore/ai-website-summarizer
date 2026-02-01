@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://ai-website-summarizer-hwnb.onrender.com';
 
 export interface SummarizeResponse {
     success: boolean;
