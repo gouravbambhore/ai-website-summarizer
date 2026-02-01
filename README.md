@@ -217,4 +217,4 @@ Have questions or need help?
 
 ---
 
-<p align="center">Made with ❤️ and AI</p>
+
