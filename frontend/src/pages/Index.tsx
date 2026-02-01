@@ -172,7 +172,27 @@ const Index: React.FC = () => {
                             </p>
                         </div>
                     </div>
-                )}
+                )
+
+                }
+
+                {/* Footer with Creator Credit */}
+                <footer className="mt-16 pt-8 border-t border-gray-800 text-center">
+                    <p className="text-gray-400 text-sm md:text-base">
+                        Built with 💙 by{' '}
+                        <a
+                            href="https://github.com/gouravbambhore"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-teal-400 hover:text-teal-300 transition-colors font-semibold"
+                        >
+                            Gourav Bambhore
+                        </a>
+                    </p>
+                    <p className="text-gray-500 text-xs md:text-sm mt-2">
+                        AI-powered website summarization using Groq LLM
+                    </p>
+                </footer>
 
             </div>
         </div>
